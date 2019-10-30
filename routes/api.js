@@ -38,8 +38,12 @@ module.exports = function (app) {
             if(err){
               next(err)
             }else{
-              const col = db.db('test').collection(stock.toUpperCase());
-              col.insert({"test": "test"});
+              const col = db.db('fcc_stocks').collection(response.symbol);
+              if(like === 'true'){
+                let ip = req.ip;
+                col.insert({ip: 1});
+              }
+
               res.json({"stockData": {"symbol": response.symbol, "price": response.latestPrice}})
             }
           })          

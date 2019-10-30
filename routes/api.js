@@ -46,8 +46,8 @@ module.exports = function (app) {
                 insertedIP['ip'] = ip.address();
                 col.insertOne(insertedIP);
               }
-
-              res.json({"stockData": {"symbol": response.symbol, "price": response.latestPrice}})
+              col.count({"ip": {$exists: true}})
+              .then(count => res.json({"stockData": {"symbol": response.symbol, "price": response.latestPrice, "like"}}))
             }
           })          
         })

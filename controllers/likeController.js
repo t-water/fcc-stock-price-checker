@@ -44,11 +44,11 @@ exports.compareLikes = function(stockObject, callback){
       const col = db.db('fcc_stocks').collection(stockObject['stockData'][0]['stock'])
       col.count({"ip": {$exists: true}})
       .then(count1 => {
-        stockObject['stockData'][0]['likes'] = count1;
         const col2 = db.db('fcc_stocks').collection(stockObject['stockData'][1]['stock'])
         col2.count({"ip": {$exists: true}})
         .then(count2 => {
-          stockObject['stockData'][0]['likes'] = count2
+          stockObject['stockData'][1]['likes'] = count2 - count1
+          stockObject['stockData'][0]['likes'] = count1 - count2
           callback(stockObject)
         }, err => callback(err))
         .catch(err => callback(err))

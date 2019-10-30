@@ -25,18 +25,20 @@ module.exports = function (app) {
       
       if(Array.isArray(stock)){
         let stockUrls = stock.map(x => `/v1/stock/${x}/quote`)
-        var stockObject = {stockObject: []}
+        var stockObject = {stockData: []}
         async function buildStockObject(){
           let stock1 = await getStockInfo(baseUrl + stockUrls[0])
-          stockObject['stockObject'].push({"stock": stock1.symbol, "price": stock1.latestPrice});
+          stockObject['stockData'].push({"stock": stock1.symbol, "price": stock1.latestPrice});
           let stock2 = await getStockInfo(baseUrl + stockUrls[1]);
-          stockObject['stockObject'].push({"stock": stock2.symbol, "price": stock2.latestPrice});
+          stockObject['stockData'].push({"stock": stock2.symbol, "price": stock2.latestPrice});
         }
         buildStockObject()
         .then(result => {
           async function compareLikes(like){
             if(like){
-              
+              return await likeController.compareLikes(stockObject, (newStockObject) => {
+                res.json(newStockObject)
+              })
             }else{
               res.json(stockObject)
             }

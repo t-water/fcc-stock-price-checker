@@ -13,7 +13,7 @@ module.exports = function (app) {
     .get(function (req, res, next){    
       async function getStockInfo(url){
         let result = await fetch(url)
-        let jsonResult = await result.json()
+        let jsonResult = await result.json();
         return jsonResult
       }
     
@@ -23,19 +23,27 @@ module.exports = function (app) {
       
       
       if(Array.isArray(stock)){
+
         let stockUrls = stock.map(x => `/v1/stock/${x}/quote`)
         var stockObject = {stockObject: []}
-        getStockInfo(baseUrl + stockUrls[0])
-        .then(result => {
-          stockObject['stockObject'].push({"stock": result.symbol, "price": result.latestPrice})
-        }, err => next(err))
-        .catch(err => next(err))
-        getStockInfo(baseUrl + stockUrls[1])
-        .then(result => {
-          stockObject['stockObject'].push({"stock": result.symbol, "price": result.latestPrice})
-        }, err => next(err))
-        .catch(err => next(err))
-        res.json(stockObject)
+        async function buildStockObject(){
+          await getStockInfo(baseUrl + stockUrls[0])
+          
+        }
+        
+        
+        // .then(result => res.json(result))
+        // res.json('hello')
+        // .then(result => {
+        //   stockObject['stockObject'].push({"stock": result.symbol, "price": result.latestPrice})
+        // }, err => next(err))
+        // .catch(err => next(err))
+        // getStockInfo(baseUrl + stockUrls[1])
+        // .then(result => {
+        //   stockObject['stockObject'].push({"stock": result.symbol, "price": result.latestPrice})
+        // }, err => next(err))
+        // .catch(err => next(err))
+        // res.json(stockObject)
         
       }
       else if(stock && stock !== ''){

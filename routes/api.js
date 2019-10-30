@@ -4,6 +4,7 @@ var expect = require('chai').expect;
 var MongoClient = require('mongodb');
 const fetch = require('node-fetch');
 const ip = require('ip');
+const likeController = require('../controllers/likeController')
 
 const CONNECTION_STRING = process.env.DB;
 
@@ -23,7 +24,6 @@ module.exports = function (app) {
       
       
       if(Array.isArray(stock)){
-
         let stockUrls = stock.map(x => `/v1/stock/${x}/quote`)
         var stockObject = {stockObject: []}
         async function buildStockObject(){
@@ -38,15 +38,29 @@ module.exports = function (app) {
         .catch(err => next(err))
         
       }
+      
       else if(stock && stock !== ''){
         let url = `/v1/stock/${stock}/quote`;
 
         getStockInfo(baseUrl + url)
         .then(result => {
-          res.json(result)
+          async function buildLikeObject(like){
+            if(like){
+              return await likeController.addLike()
+            }
+            return await likeController.getLikes()
+          }
+          buildLikeObject(like)
+          .then(data => {
+            res.json({"stock": result.symbol, "price": result.latestPrice})
+          })
+            
+          
         }, err => next(err))
         .catch(err => next(err))
-      }else{
+      }
+    
+      else{
         res.statusCode = 404;
         let err = new Error('No Stock Given');
         return next(err);

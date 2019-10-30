@@ -40,14 +40,37 @@ module.exports = function (app) {
               next(err)
             }else{
               const col = db.db('fcc_stocks').collection(response.symbol);
-              col.createIndex({"ip": 1}, {unique:true})
               if(like === 'true'){
                 let insertedIP = {}
                 insertedIP['ip'] = ip.address();
-                col.insertOne(insertedIP);
-              }
-              col.count({"ip": {$exists: true}})
-              .then(count => res.json({"stockData": {"symbol": response.symbol, "price": response.latestPrice, "like"}}))
+                col.findOne(insertedIP)
+                .then(data => {
+                  if(data != null){
+                    col.count({"ip": {$exists: true}})
+                      .then(count => {
+                        res.json({"stockData": {"symbol": response.symbol, "price": response.latestPrice, "likes": count}})
+                      },err => next(err))
+                      .catch(err => next(err))
+                  }else{
+                    col.insertOne(insertedIP)
+                    .then(data => {
+                      col.count({"ip": {$exists: true}})
+                      .then(count => {
+                        res.json({"stockData": {"symbol": response.symbol, "price": response.latestPrice, "likes": count}})
+                      },err => next(err))
+                      .catch(err => next(err))
+                    }, err => next(err))
+                    .catch(err => next(err))
+                      }
+                    }, err=>next(err))
+                    .catch(err => next(err))
+
+              }else{
+                col.count({"ip": {$exists: true}})
+                .then(count => res.json({"stockData": {"symbol": response.symbol, "price": response.latestPrice, "likes": count}}),
+                     err => next(err))
+                .catch(err => next(err))
+                }
             }
           })          
         })

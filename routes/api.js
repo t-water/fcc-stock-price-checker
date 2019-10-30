@@ -27,23 +27,15 @@ module.exports = function (app) {
         let stockUrls = stock.map(x => `/v1/stock/${x}/quote`)
         var stockObject = {stockObject: []}
         async function buildStockObject(){
-          await getStockInfo(baseUrl + stockUrls[0])
-          
+          let stock1 = await getStockInfo(baseUrl + stockUrls[0])
+          stockObject['stockObject'].push({"stock": stock1.symbol, "price": stock1.latestPrice});
+          let stock2 = await getStockInfo(baseUrl + stockUrls[1]);
+          stockObject['stockObject'].push({"stock": stock2.symbol, "price": stock2.latestPrice});
         }
-        
-        
-        // .then(result => res.json(result))
-        // res.json('hello')
-        // .then(result => {
-        //   stockObject['stockObject'].push({"stock": result.symbol, "price": result.latestPrice})
-        // }, err => next(err))
-        // .catch(err => next(err))
-        // getStockInfo(baseUrl + stockUrls[1])
-        // .then(result => {
-        //   stockObject['stockObject'].push({"stock": result.symbol, "price": result.latestPrice})
-        // }, err => next(err))
-        // .catch(err => next(err))
-        // res.json(stockObject)
+        buildStockObject()
+        .then(result => {res.json(stockObject)
+        }, err => next(err))
+        .catch(err => next(err))
         
       }
       else if(stock && stock !== ''){

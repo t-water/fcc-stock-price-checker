@@ -40,13 +40,14 @@ module.exports = function (app) {
               next(err)
             }else{
               const col = db.db('fcc_stocks').collection(response.symbol);
+              col.createIndex({"ip": 1}, {unique:true})
               if(like === 'true'){
                 let insertedIP = {}
-                insertedIP[ip.address()] = 1;
+                insertedIP['ip'] = ip.address();
                 col.insertOne(insertedIP);
               }
 
-              // res.json({"stockData": {"symbol": response.symbol, "price": response.latestPrice}})
+              res.json({"stockData": {"symbol": response.symbol, "price": response.latestPrice}})
             }
           })          
         })

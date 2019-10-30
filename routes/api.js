@@ -2,6 +2,7 @@
 
 var expect = require('chai').expect;
 var MongoClient = require('mongodb');
+const fetch = require('node-fetch');
 
 const CONNECTION_STRING = process.env.DB; //MongoClient.connect(CONNECTION_STRING, function(err, db) {});
 
@@ -12,7 +13,6 @@ module.exports = function (app) {
       let baseUrl = 'https://repeated-alpaca.glitch.me';
       let stock = req.query.stock
       let like = req.query.like;
-      let stockData = {stockData: ''};
       
       if(Array.isArray(stock)){
         res.json(stock)
@@ -34,6 +34,11 @@ module.exports = function (app) {
             let err = new Error(error.message);
             throw err;
           })
+          .then(response => response.json())
+          .then(response => {
+            res.json({"stockData": {"symbol": response.symbol, "price": response.latestPrice}})
+          })
+          .catch(err => next(err))
         }
       }
       // if(!stock || stock === ''){

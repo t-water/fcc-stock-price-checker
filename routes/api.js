@@ -45,17 +45,14 @@ module.exports = function (app) {
         .then(result => {
           async function buildLikeObject(like){
             if(like){
-              return await likeController.addLike()
+              return await likeController.addLike(result.symbol, (data) =>{
+               res.json({"stock": result.symbol, "price": result.latestPrice, "likes": data})
+              })
+              return await likeController.getLikes(result.symbol, (data) =>{
+               res.json({"stock": result.symbol, "price": result.latestPrice, "likes": data})
+              })
             }
-            let a =  await likeController.getLikes(result.symbol)
-            return a
           }
-          buildLikeObject(like)
-          .then(data => {
-            res.json({"stock": result.symbol, "price": result.latestPrice, "likes": data})
-          })
-            
-          
         }, err => next(err))
         .catch(err => next(err))
       }

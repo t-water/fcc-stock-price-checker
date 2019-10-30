@@ -1,7 +1,7 @@
 const MongoClient = require('mongodb');
 const CONNECTION_STRING = process.env.DB;
 
-exports.getLikes = function(stock){
+exports.getLikes = function(stock, callback){
   MongoClient.connect(CONNECTION_STRING, (err, db) => {
     if(err){
       return err
@@ -9,7 +9,7 @@ exports.getLikes = function(stock){
     const col = db.db('fcc_stocks').collection(stock)
     col.count({ip: {$exists: true}})
     .then(count => {
-      return count;
+      callback(count)
     }, err => err)
     .catch(err => err)
   })

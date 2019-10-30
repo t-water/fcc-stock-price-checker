@@ -23,15 +23,20 @@ module.exports = function (app) {
       
       
       if(Array.isArray(stock)){
-        let stockObject = stock.map(x => {
-          let url = `/v1/stock/${x}/quote`;          
-          getStockInfo(baseUrl + url)
-          .then(result => {
-            return "this"
-          }, err => next(err))
-          .catch(err => next(err))
-        })
-        res.json(stockObject);
+        let stockUrls = stock.map(x => `/v1/stock/${x}/quote`)
+        var stockObject = {stockObject: []}
+        getStockInfo(baseUrl + stockUrls[0])
+        .then(result => {
+          stockObject['stockObject'].push({"stock": result.symbol, "price": result.latestPrice})
+        }, err => next(err))
+        .catch(err => next(err))
+        getStockInfo(baseUrl + stockUrls[1])
+        .then(result => {
+          stockObject['stockObject'].push({"stock": result.symbol, "price": result.latestPrice})
+        }, err => next(err))
+        .catch(err => next(err))
+        res.json(stockObject)
+        
       }
       else if(stock && stock !== ''){
         let url = `/v1/stock/${stock}/quote`;

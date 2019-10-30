@@ -3,6 +3,7 @@
 var expect = require('chai').expect;
 var MongoClient = require('mongodb');
 const fetch = require('node-fetch');
+const ip = require('ip');
 
 const CONNECTION_STRING = process.env.DB;
 
@@ -40,11 +41,12 @@ module.exports = function (app) {
             }else{
               const col = db.db('fcc_stocks').collection(response.symbol);
               if(like === 'true'){
-                let ip = req.ip;
-                col.insert({ip: 1});
+                let insertedIP = {}
+                insertedIP[ip.address()] = 1;
+                col.insertOne(insertedIP);
               }
 
-              res.json({"stockData": {"symbol": response.symbol, "price": response.latestPrice}})
+              // res.json({"stockData": {"symbol": response.symbol, "price": response.latestPrice}})
             }
           })          
         })

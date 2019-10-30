@@ -4,7 +4,7 @@ var expect = require('chai').expect;
 var MongoClient = require('mongodb');
 const fetch = require('node-fetch');
 
-const CONNECTION_STRING = process.env.DB; //MongoClient.connect(CONNECTION_STRING, function(err, db) {});
+const CONNECTION_STRING = process.env.DB;
 
 module.exports = function (app) {
 
@@ -16,30 +16,34 @@ module.exports = function (app) {
       
       if(Array.isArray(stock)){
         res.json(stock)
-      }else{
-        if(like === 'true'){
-          res.json('like');
-        }else{
-          let url = `/v1/stock/${stock}/quote`
-          return fetch(baseUrl + url)
-          .then(response => {
-            if(response.ok){
-              return response
-            }else{
-              let err = new Error('Response returned not ok');
-              err.response = response;
-              throw err;
-            }
-          }, error => {
-            let err = new Error(error.message);
+      }
+      
+      else{
+        let url = `/v1/stock/${stock}/quote`
+        return fetch(baseUrl + url)
+        .then(response => {
+          if(response.ok){
+            return response
+          }else{
+            let err = new Error('Response returned not ok');
+            err.response = response;
             throw err;
-          })
-          .then(response => response.json())
-          .then(response => {
-            res.json({"stockData": {"symbol": response.symbol, "price": response.latestPrice}})
-          })
-          .catch(err => next(err))
-        }
+          }
+        }, error => {
+          let err = new Error(error.message);
+          throw err;
+        })
+        .then(response => response.json())
+        .then(response => {
+          MongoClient.connect(CONNECTION_STRING, (err, db) => {
+            if(err){
+              next(err)
+            }else{
+              res.json({"stockData": {"symbol": response.symbol, "price": response.latestPrice}})
+            }
+          })          
+        })
+        .catch(err => next(err))
       }
       // if(!stock || stock === ''){
       //   res.statusCode = 404;

@@ -17,8 +17,7 @@ module.exports = function (app) {
       if(Array.isArray(stock)){
         res.json(stock)
       }
-      
-      else{
+      else if(stock && stock !== ''){
         let url = `/v1/stock/${stock}/quote`
         return fetch(baseUrl + url)
         .then(response => {
@@ -39,19 +38,18 @@ module.exports = function (app) {
             if(err){
               next(err)
             }else{
+              const col = db.db('test').collection(stock.toUpperCase());
+              col.insert({"test": "test"});
               res.json({"stockData": {"symbol": response.symbol, "price": response.latestPrice}})
             }
           })          
         })
         .catch(err => next(err))
+      }else{
+        res.statusCode = 404;
+        let err = new Error('No Stock Given');
+        return next(err);
       }
-      // if(!stock || stock === ''){
-      //   res.statusCode = 404;
-      //   let err = new Error('Stock not found');
-      //   return next(err);
-      // }else{
-      //   res.json(stock);
-      // }
     });
     
 };

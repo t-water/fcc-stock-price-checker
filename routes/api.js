@@ -36,7 +36,6 @@ module.exports = function (app) {
         .then(result => {res.json(stockObject)
         }, err => next(err))
         .catch(err => next(err))
-        
       }
       
       else if(stock && stock !== ''){
@@ -48,11 +47,12 @@ module.exports = function (app) {
             if(like){
               return await likeController.addLike()
             }
-            return await likeController.getLikes()
+            let a =  await likeController.getLikes(result.symbol)
+            return a
           }
           buildLikeObject(like)
           .then(data => {
-            res.json({"stock": result.symbol, "price": result.latestPrice})
+            res.json({"stock": result.symbol, "price": result.latestPrice, "likes": data})
           })
             
           

@@ -16,8 +16,14 @@ const CONNECTION_STRING = process.env.DB; //MongoClient.connect(CONNECTION_STRIN
 module.exports = function (app) {
 
   app.route('/api/stock-prices')
-    .get(function (req, res){
-      
+    .get(function (req, res, next){
+      let stock = req.query.stock.toUpperCase();
+      let like = req.query.like;
+      if(!stock || stock === ''){
+        res.statusCode = 404;
+        let err = new Error('Stock not found');
+        return next(err);
+      }
     });
     
 };

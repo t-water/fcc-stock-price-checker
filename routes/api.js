@@ -33,7 +33,15 @@ module.exports = function (app) {
           stockObject['stockObject'].push({"stock": stock2.symbol, "price": stock2.latestPrice});
         }
         buildStockObject()
-        .then(result => {res.json(stockObject)
+        .then(result => {
+          async function compareLikes(like){
+            if(like){
+              
+            }else{
+              res.json(stockObject)
+            }
+          }
+        compareLikes(like)
         }, err => next(err))
         .catch(err => next(err))
       }

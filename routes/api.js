@@ -45,7 +45,7 @@ module.exports = function (app) {
         .then(result => {
           async function buildLikeObject(like){
             if(like){
-              return await likeController.addLike(result.symbol, ip.address, (data) =>{
+              return await likeController.addLike(result.symbol, ip.address(), (data) =>{
                res.json({"stock": result.symbol, "price": result.latestPrice, "likes": data})
               })
             } 
@@ -56,9 +56,7 @@ module.exports = function (app) {
           buildLikeObject(like)
         }, err => next(err))
         .catch(err => next(err))
-       
       }
-    
       else{
         res.statusCode = 404;
         let err = new Error('No Stock Given');

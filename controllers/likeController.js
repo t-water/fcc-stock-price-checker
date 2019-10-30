@@ -25,12 +25,12 @@ exports.addLike = function(stock, ip, callback){
     const col = db.db('fcc_stocks').collection(stock)
     col.update(address, address, {upsert: true})
     .then(update => {
-      
+      col.count({ip: {$exists: true}})
+        .then(count => {
+          callback(count)
+        }, err => err)
+        .catch(err => err)
     })
-    col.count({ip: {$exists: true}})
-    .then(count => {
-      callback(count)
-    }, err => err)
-    .catch(err => err)
+    
   })
 }

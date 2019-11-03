@@ -14,10 +14,10 @@ suite('Functional Tests', function() {
         .query({stock: 'fb'})
         .end(function(err, res){
           assert.equal(res.status, 200);
-          assert.property(res.body.stockData, 'stock');
-          assert.property(res.body.stockData, 'price');
-          assert.property(res.body.stockData, 'likes');
-          assert.equal(res.body.stockData.stock, 'FB');
+          assert.property(res.body, 'stock');
+          assert.property(res.body, 'price');
+          assert.property(res.body, 'likes');
+          assert.equal(res.body.stock, 'FB');
           done();
         });
       });
@@ -30,12 +30,12 @@ suite('Functional Tests', function() {
         .query({stock: 'fb', like: true})
         .end(function(err, res){
           assert.equal(res.status, 200);
-          assert.property(res.body.stockData, 'stock');
-          assert.property(res.body.stockData, 'price');
-          assert.property(res.body.stockData, 'likes');
-          assert.equal(res.body.stockData.stock, 'FB');
-          assert.isAbove(res.body.stockData.likes, 0);
-          likes = res.body.stockData.likes;
+          assert.property(res.body, 'stock');
+          assert.property(res.body, 'price');
+          assert.property(res.body, 'likes');
+          assert.equal(res.body.stock, 'FB');
+          assert.isAbove(res.body.likes, 0);
+          likes = res.body.likes;
           done();
         });
       });
@@ -46,11 +46,11 @@ suite('Functional Tests', function() {
         .query({stock: 'fb', like: true})
         .end(function(err, res){
           assert.equal(res.status, 200);
-          assert.property(res.body.stockData, 'stock');
-          assert.property(res.body.stockData, 'price');
-          assert.property(res.body.stockData, 'likes');
-          assert.equal(res.body.stockData.stock, 'FB');
-          assert.equal(res.body.stockData.likes, likes);
+          assert.property(res.body, 'stock');
+          assert.property(res.body, 'price');
+          assert.property(res.body, 'likes');
+          assert.equal(res.body.stock, 'FB');
+          assert.equal(res.body.likes, likes);
           done();
         });
       });

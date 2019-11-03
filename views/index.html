@@ -34,12 +34,12 @@
       </form>
       
       
-      <div id = "single-stock-success" class = "row text-center d-none text-success">
+      <div id = "single-stock-success" class = "row text-center d-none text-success ajax-messages">
         <div class="col-12 col-md-4">Symbol: <span id = "single-stock-symbol" ></span></div>
         <div class = "col-12 col-md-4">Price: $<span id = "single-stock-price" ></span></div>
         <div class = "col-12 col-md-4">Likes: <span id = "single-stock-likes" class = "col-12 col-md-4"></span></div>
       </div>
-      <div id = "single-stock-error" class = "text-danger"></div>
+      <div id = "single-stock-error" class = "row justify-content-center d-nonetext-danger" ajax-messages>E/div>
       
       
       <h2 class = "my-5 text-center">Compare and Get Likes</h2>
@@ -64,17 +64,31 @@
     
     <script>
       $(function() {
-        $('#single-stock-form').submit(function(e) {
+
+        $(document)
+        .ajaxStart(function(){
+          $('#single-stock-form')[0].reset();
+          $('#compare-stocks-form')[0].reset();
+        })        $('#single-stock-form').submit(function(e) {
           $.ajax({
             url: '/api/stock-prices',
             data: $('#single-stock-form').serialize(),
             success: function(data) {
               $('#single-stock-success').removeClass('d-none')
-              $('#single-stock-symbol').text(data.stock)
+
+              $('#single-stock-error').addClass('d-none')
+              $('#single-stock-error').text('')               $('#single-stock-symbol').text(data.stock)
               $('#single-stock-price').text(data.price)
-              $('#single-stock-likes').text(data.likes)
-            }
-          });
+              $('#single-stock-likes').text(data.likes)            }
+,
+            failure: function(request, status, error){
+              $('#single-stock-success').addClass('d-none')
+              $('#single-stock-error').removeClass('d-none')
+              $('#sing-stock-error').responseText(request.responseText)
+              $('#single-stock-symbol').text("")
+              $('#single-stock-price').text("")
+              $('#single-stock-likes').text("")
+            }          });
           e.preventDefault();
         });
         $('#compare-stocks-form').submit(function(e) {
@@ -91,3 +105,4 @@
    </script>
   </body>
 </html>
+ 

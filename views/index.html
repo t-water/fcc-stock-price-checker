@@ -18,7 +18,7 @@
 
     <div class = "container-fluid">
       <h2 class = "mb-5 text-center">Get Price and Total Likes</h2>
-      <form id="testForm2">
+      <form id="single-stock-form">
         <div class = "form-row mb-3">
           <label for = "single-stock" class = "col-md-2">Stock Symbol: </label>
           <input class="form-control col-md-8 mb-3 mb-md-0" type="text" name="stock" id = "single-stock" placeholder="goog" required="">
@@ -33,9 +33,11 @@
         </div>
       </form>
       
-      <div id = "single-stock-result" class = "row justify-content-center">
+      <div id = "single-stock-result" class = "row justify-content-center d-none text-success">
         <div id = "single-stock-success">
-          Symbol: <span id = "single-stock-symbol"></span> Price: <span id = "single-stock-price"></span>
+          <div class="col-12 col-md-4">Symbol: <span id = "single-stock-symbol" ></span></div>
+          <div class = "col-12 col-md-4">Price: <span id = "single-stock-price" ></span></div>
+          Likes: <span id = "single-stock-likes" class = "col-12 col-md-4"></span>
         </div>
         <div id = "single-stock-error" class = "text-danger"></div>
       </div>
@@ -62,17 +64,20 @@
     
     <script>
       $(function() {
-        $('#testForm').submit(function(e) {
+        $('#single-stock-form').submit(function(e) {
           $.ajax({
             url: '/api/stock-prices',
-            data: $('#testForm').serialize(),
+            data: $('#single-stock-form').serialize(),
             success: function(data) {
-              $('#jsonResult').text(JSON.stringify(data));
+              $('#single-stock-result').removeClass('d-none')
+              $('#single-stock-symbol').text(data.stock)
+              $('#single-stock-price').text(data.price)
+              $('#single-stock-likes').text(data.likes)
             }
           });
           e.preventDefault();
         });
-        $('#testForm2').submit(function(e) {
+        $('#compare-stocks-form').submit(function(e) {
           $.ajax({
             url: '/api/stock-prices',
             data: $('#testForm2').serialize(),

@@ -20,13 +20,14 @@
       <h2 class = "mb-5 text-center">Get Price and Total Likes</h2>
       <form id="testForm2">
         <div class = "form-row mb-3">
-          <label for = "stock" class = "col-2">Stock Symbol: </label>
-          <input class="form-control col-8" type="text" name="stock" id = "stock" placeholder="goog" required="">
-          
+          <label for = "stock" class = "col-md-2">Stock Symbol: </label>
+          <input class="form-control col-md-8" type="text" name="stock" id = "stock" placeholder="goog" required="">
+          <div class = "form-check ml-2">
+            <input class="form-check-input" id = "like-single-stock" type="checkbox" name="like" value="">
+            <label class = "form-check-label" for = "like-single-stock">Like?</label>
+          </div>
         </div>
-        <div class = "form-check">
-          <input class="form-control col-1" type="checkbox" name="like" value="true"> Like?
-        </div>
+
         <div class = "form-row mb-3 justify-content-center">
           <button type="submit" class = "btn btn-primary col-md-2">Get Price!</button>
         </div>
@@ -42,8 +43,8 @@
           <input class="form-control col-md-4" type="text" name="stock" placeholder="msft" required="">
         </div>
         <div class = "form-check">
-          <label class = "form-check-label">Include Likes?</label>
-          <input class="form-check-input" type="checkbox" name="like" value="true">
+          <input id = "compare-likes" class="form-check-input" type="checkbox" name="like" value="true">
+          <label for = "compare-likes" class = "form-check-label">Include Likes?</label>
         </div>
         
         <div class = "form-row justify-content-center">

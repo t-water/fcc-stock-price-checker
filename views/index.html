@@ -39,7 +39,7 @@
         <div class = "col-12 col-md-4">Price: $<span id = "single-stock-price" ></span></div>
         <div class = "col-12 col-md-4">Likes: <span id = "single-stock-likes" class = "col-12 col-md-4"></span></div>
       </div>
-      <div id = "single-stock-error" class = "row justify-content-center d-nonetext-danger ajax-messages"></div>
+      <div id = "single-stock-error" class = "row justify-content-center d-none text-danger ajax-messages"></div>
       
       
       <h2 class = "my-5 text-center">Compare and Get Likes</h2>
@@ -76,10 +76,10 @@
               $('#single-stock-likes').text(data.likes)
               $('#single-stock-symbol').text(data.stock)
             },
-            failure: function(request, status, error){
+            error: function(request, status, error){
               $('#single-stock-success').addClass('d-none')
               $('#single-stock-error').removeClass('d-none')
-              // $('#sing-stock-error').responseText('Requested stock not found.')
+              $('#single-stock-error').text('Requested stock not found.')
               $('#single-stock-symbol').text("")
               $('#single-stock-price').text("")
               $('#single-stock-likes').text("")

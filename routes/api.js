@@ -44,6 +44,7 @@ module.exports = function (app) {
             }
           }
         compareLikes(like)
+        .catch(err => next(err))
         }, err => next(err))
         .catch(err => next(err))
       }
@@ -64,6 +65,7 @@ module.exports = function (app) {
             })
           }
           buildLikeObject(like)
+          .catch(err => next(err))
         }, err => next(err))
         .catch(err => next(err))
       }

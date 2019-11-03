@@ -77,13 +77,12 @@
               $('#single-stock-symbol').text(data.stock)
             },
             failure: function(request, status, error){
-              console.log(request.responseText)
-              // $('#single-stock-success').addClass('d-none')
-              // $('#single-stock-error').removeClass('d-none')
-              // $('#sing-stock-error').responseText(request.responseText)
-              // $('#single-stock-symbol').text("")
-              // $('#single-stock-price').text("")
-              // $('#single-stock-likes').text("")
+              $('#single-stock-success').addClass('d-none')
+              $('#single-stock-error').removeClass('d-none')
+              // $('#sing-stock-error').responseText('Requested stock not found.')
+              $('#single-stock-symbol').text("")
+              $('#single-stock-price').text("")
+              $('#single-stock-likes').text("")
             }
           });
           e.preventDefault();

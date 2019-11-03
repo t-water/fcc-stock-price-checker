@@ -106,6 +106,7 @@
               $('#stock1-success').removeClass('d-none')
               $('#stock2-success').removeClass('d-none')
               $('#compare-stocks-error').addClass('d-none')
+              $('#compare-stocks-error').text('')
               $('#stock1-price').text(data.stockData[0].price)
               $('#stock1-symbol').text(data.stockData[0].stock)
               $('#stock2-price').text(data.stockData[1].price)
@@ -124,6 +125,12 @@
               $('#stock2-success').addClass('d-none')
               $('#compare-stocks-error').removeClass('d-none')
               $('#compare-stocks-error').text('One or more stocks not found')
+              $('#stock1-price').text("")
+              $('#stock1-symbol').text("")
+              $('#stock1-likes').text("")
+              $('#stock2-price').text("")
+              $('#stock2-symbol').text("")
+              $('#stock2-likes').text("")
             }
           });
           e.preventDefault();

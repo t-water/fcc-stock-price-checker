@@ -43,7 +43,7 @@
       
       
       <h2 class = "my-5 text-center">Compare and Get Likes</h2>
-      <form id="testForm">
+      <form id="compare-stocks-form">
         <div class = "form-row mb-3">
           <label for="stock-1-symbol" class = "col-md-2">Stock 1 Symbol: </label>
           <input id="stock-1-symbol" class="form-control col-md-4" type="text" name="stock" placeholder="goog" required="">
@@ -59,7 +59,18 @@
           <button type="submit" class = "btn btn-primary col-md-2">Get Price!</button>
         </div>
       </form>
-      <code id="jsonResult"></code>
+      
+      <div id = "stock1-success" class = "row text-center d-none text-success ajax-messages">
+        <div class="col-12 col-md-4">Symbol: <span id = "stock1-symbol" ></span></div>
+        <div class = "col-12 col-md-4">Price: $<span id = "stock1-price" ></span></div>
+        <div class = "col-12 col-md-4">Likes: <span id = "stock1-likes" class = "col-12 col-md-4"></span></div>
+      </div>
+      <div id = "stock2-success" class = "row text-center d-none text-success ajax-messages">
+        <div class="col-12 col-md-4">Symbol: <span id = "stock2-symbol" ></span></div>
+        <div class = "col-12 col-md-4">Price: $<span id = "stock2-price" ></span></div>
+        <div class = "col-12 col-md-4">Likes: <span id = "stock2-likes" class = "col-12 col-md-4"></span></div>
+      </div>
+      <div id = "compare-stocks-error" class = "row justify-content-center d-none text-danger ajax-messages"></div>
     </div>
     
     <script>
@@ -90,9 +101,20 @@
         $('#compare-stocks-form').submit(function(e) {
           $.ajax({
             url: '/api/stock-prices',
-            data: $('#testForm2').serialize(),
+            data: $('#compare-stocks-form').serialize(),
             success: function(data) {
-              $('#jsonResult').text(JSON.stringify(data));
+              $('#stock1-success').removeClass('d-none')
+              $('#stock2-success').removeClass('d-none')
+              $('#compare-stocks-error').addClass('d-none')
+              $('#stock1-price').text(data.stockData[0].price)
+              $('#stock1-likes').text(data.stockData[0].likes)
+              $('#stock1-symbol').text(data.stockData[0].stock)
+              $('#stock2-price').text(data.stockData[1].price)
+              $('#stock2-likes').text(data.stockData[1].likes)
+              $('#stock2-symbol').text(data.stockData[1].stock)
+            },
+            error: function(request, status, error){
+              console.log(request.responseText)
             }
           });
           e.preventDefault();

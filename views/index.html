@@ -20,9 +20,9 @@
       <h2 class = "mb-5 text-center">Get Price and Total Likes</h2>
       <form id="testForm2">
         <div class = "form-row mb-3">
-          <label for = "stock" class = "col-md-2">Stock Symbol: </label>
-          <input class="form-control col-md-8" type="text" name="stock" id = "stock" placeholder="goog" required="">
-          <div class = "form-check ml-2">
+          <label for = "single-stock" class = "col-md-2">Stock Symbol: </label>
+          <input class="form-control col-md-8 mb-3 mb-md-0" type="text" name="stock" id = "single-stock" placeholder="goog" required="">
+          <div class = "form-check ml-md-2">
             <input class="form-check-input" id = "like-single-stock" type="checkbox" name="like" value="">
             <label class = "form-check-label" for = "like-single-stock">Like?</label>
           </div>
@@ -31,18 +31,24 @@
         <div class = "form-row mb-3 justify-content-center">
           <button type="submit" class = "btn btn-primary col-md-2">Get Price!</button>
         </div>
-        
-        
       </form>
+      
+      <div id = "single-stock-result" class = "row justify-content-center">
+        <div id = "single-stock-success">
+          Symbol: <span id = "single-stock-symbol"></span> Price: <span id = "single-stock-price"></span>
+        </div>
+        <div id = "single-stock-error" class = "text-danger"></div>
+      </div>
+      
       <h2 class = "my-5 text-center">Compare and Get Likes</h2>
       <form id="testForm">
-        <div class = "form-row">
-          <label for="" class = "col-md-2">Stock 1 Symbol: </label>
-          <input class="form-control col-md-4" type="text" name="stock" placeholder="goog" required="">
-          <label for="" class = "col-md-2">Stock 2 Symbol: </label>
-          <input class="form-control col-md-4" type="text" name="stock" placeholder="msft" required="">
+        <div class = "form-row mb-3">
+          <label for="stock-1-symbol" class = "col-md-2">Stock 1 Symbol: </label>
+          <input id="stock-1-symbol" class="form-control col-md-4" type="text" name="stock" placeholder="goog" required="">
+          <label for="stock-2-symbol" class = "col-md-2">Stock 2 Symbol: </label>
+          <input id="stock-2-symbol" class="form-control col-md-4" type="text" name="stock" placeholder="msft" required="">
         </div>
-        <div class = "form-check">
+        <div class = "form-check mb-3">
           <input id = "compare-likes" class="form-check-input" type="checkbox" name="like" value="true">
           <label for = "compare-likes" class = "form-check-label">Include Likes?</label>
         </div>

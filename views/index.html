@@ -17,20 +17,23 @@
   <body>
 
     <div class = "container-fluid">
-      <h2 class = "my-4">Get Price and Total Likes</h2>
+      <h2 class = "mb-5 text-center">Get Price and Total Likes</h2>
       <form id="testForm2">
         <div class = "form-row mb-3">
           <label for = "stock" class = "col-2">Stock Symbol: </label>
           <input class="form-control col-8" type="text" name="stock" id = "stock" placeholder="goog" required="">
+          
+        </div>
+        <div class = "form-check">
           <input class="form-control col-1" type="checkbox" name="like" value="true"> Like?
         </div>
-        <div class = "form-row mb-3">
+        <div class = "form-row mb-3 justify-content-center">
           <button type="submit" class = "btn btn-primary col-md-2">Get Price!</button>
         </div>
         
         
       </form>
-      <h2 class = "my-4">Compare and get relative likes</h2>
+      <h2 class = "my-5 text-center">Compare and Get Likes</h2>
       <form id="testForm">
         <div class = "form-row">
           <label for="" class = "col-md-2">Stock 1 Symbol: </label>
@@ -38,9 +41,14 @@
           <label for="" class = "col-md-2">Stock 2 Symbol: </label>
           <input class="form-control col-md-4" type="text" name="stock" placeholder="msft" required="">
         </div>
+        <div class = "form-check">
+          <label class = "form-check-label">Include Likes?</label>
+          <input class="form-check-input" type="checkbox" name="like" value="true">
+        </div>
         
-        <input class="form-control" type="checkbox" name="like" value="true"> Include Likes?
-        <button type="submit" class = "btn btn-primary">Get Price!</button>
+        <div class = "form-row justify-content-center">
+          <button type="submit" class = "btn btn-primary col-md-2">Get Price!</button>
+        </div>
       </form>
       <code id="jsonResult"></code>
     </div>

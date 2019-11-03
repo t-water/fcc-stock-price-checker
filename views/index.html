@@ -63,12 +63,12 @@
       <div id = "stock1-success" class = "row text-center d-none text-success ajax-messages">
         <div class="col-12 col-md-4">Symbol: <span id = "stock1-symbol" ></span></div>
         <div class = "col-12 col-md-4">Price: $<span id = "stock1-price" ></span></div>
-        <div class = "col-12 col-md-4">Likes: <span id = "stock1-likes" class = "col-12 col-md-4"></span></div>
+        <div class = "col-12 col-md-4 d-none compare-stocks-likes">Likes: <span id = "stock1-likes" class = "col-12 col-md-4"></span></div>
       </div>
       <div id = "stock2-success" class = "row text-center d-none text-success ajax-messages">
         <div class="col-12 col-md-4">Symbol: <span id = "stock2-symbol" ></span></div>
         <div class = "col-12 col-md-4">Price: $<span id = "stock2-price" ></span></div>
-        <div class = "col-12 col-md-4">Likes: <span id = "stock2-likes" class = "col-12 col-md-4"></span></div>
+        <div class = "col-12 col-md-4 d-none compare-stocks-likes">Likes: <span id = "stock2-likes" class = "col-12 col-md-4"></span></div>
       </div>
       <div id = "compare-stocks-error" class = "row justify-content-center d-none text-danger ajax-messages"></div>
     </div>
@@ -107,14 +107,23 @@
               $('#stock2-success').removeClass('d-none')
               $('#compare-stocks-error').addClass('d-none')
               $('#stock1-price').text(data.stockData[0].price)
-              $('#stock1-likes').text(data.stockData[0].likes)
               $('#stock1-symbol').text(data.stockData[0].stock)
               $('#stock2-price').text(data.stockData[1].price)
-              $('#stock2-likes').text(data.stockData[1].likes)
               $('#stock2-symbol').text(data.stockData[1].stock)
+              if(data.stockData[0].likes && data.stockData[1].likes){
+                $('#stock1-likes').text(data.stockData[0].likes)
+                $('#stock2-likes').text(data.stockData[1].likes)
+                $('.compare-stocks-likes').removeClass('d-none')
+              }else{
+                $('.compare-stocks-likes').addClass('d-none')
+              }
+
             },
             error: function(request, status, error){
-              console.log(request.responseText)
+              $('#stock1-success').addClass('d-none')
+              $('#stock2-success').addClass('d-none')
+              $('#compare-stocks-error').removeClass('d-none')
+              $('#compare-stocks-error').text('One or more stocks not found')
             }
           });
           e.preventDefault();
